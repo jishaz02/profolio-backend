@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const forumRoute = require("./routes/forum.route");
 const userRoute = require("./routes/user.route");
 const cors = require("cors");
+const portfolioModel = require("./models/portfolio.model");
+const portfolioRoute = require("./routes/portfolio.route");
 
 const port = 5000;
 
@@ -32,5 +34,6 @@ app.use(express.json());
 // Routes
 app.use("/forum", forumRoute);
 app.use("/users", userRoute);
+app.use("/portfolio", portfolioRoute);
 
 app.listen(port, () => console.log(`App listening on port ${port}!`)); //start in this port 5000
