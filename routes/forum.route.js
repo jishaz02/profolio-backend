@@ -1,21 +1,24 @@
 const express = require("express");
 const router = express.Router();
 
-const UserSchema = require("../models/user.model");
-const QuestionSchema = require("../models/question.model");
-const AnswerSchema = require("../models/answer.model");
+const UserSchema = require("../models/user.model"); // Import the User model
+const QuestionSchema = require("../models/question.model"); // Import the Question model
+const AnswerSchema = require("../models/answer.model"); // Import the Answer model
 
 // Route to get all questions
 router.get("/questions", async (req, res) => {
-  const { topic } = req.query;
+  const { topic } = req.query; // Get the topic from the query string
   try {
+    // Try to execute the following code
     const questions = await QuestionSchema.find({
+      // Find all the questions with the specified topic (if any) or all questions (if no topic is specified)
       topic: topic,
     }); // Find all the questions with the specified topic
-    res.json(questions);
+    res.json(questions); // Send the questions as a JSON response
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error" });
+    // Catch any errors that may occur
+    console.error(error); // Log the error to the console
+    res.status(500).json({ message: "Server Error" }); // Send a 500 response with the message "Server Error"
   }
 });
 
@@ -36,19 +39,19 @@ router.get("/questions/:questionId", async (req, res) => {
 
 // Route to add a new question
 router.post("/questions", async (req, res) => {
-  const { title, content, wAddress, topic } = req.body;
+  const { question, wAddress, topic } = req.body;
   try {
     const user = await UserSchema.findOne({ wAddress: wAddress }); // Find the user who posted the question
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    const question = await QuestionSchema.create({
-      title,
-      content,
+    const ques = await QuestionSchema.create({
+      question,
       wAddress,
       topic,
+      answers: [],
     }); // Create a new question with the associated user
-    res.status(201).json(question);
+    res.status(201).json(ques);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });

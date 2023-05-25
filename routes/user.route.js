@@ -47,8 +47,8 @@ router.post("/", async (req, res) => {
       res.status(201).json(user);
     } else if (role === "professor") {
       const user = await UserSchema.create({
-        fname,
-        lname,
+        fName,
+        lName,
         email,
         phone,
         wAddress,
